@@ -39,26 +39,18 @@ mongoose.connect("mongodb://localhost/scraper", {
 
 
 //routes
-// app.get("/", function(req, res){
-// 	// inline data
-// var tester = [
-//   {
-//     animalType: "dog",
-//     pet: true,
-//     fierceness: 4
-//   }, {
-//     animalType: "cat",
-//     pet: true,
-//     fierceness: 10
-//   }
-// ];
-// 	console.log(tester[1]);
-// 	res.render("index", tester[1]);
-// });
 
-// app.get("/", function(req, res) {
-//  res.send("where are my handlebars")
-// });
+app.get("/", function(req, res, next) {
+ 	res.render("index", {tester: '309'});
+	// res.render("./layouts/main", {homeClass: 'class="active"'});
+	// res.render("./layouts/main", {listClass: 'class=""'});
+});
+
+app.get("/list", function(req, res, next) {
+	res.render("list", {tester: '520'});
+	// res.render ("./layouts/main", {listClass: 'class="active"'});
+	// res.render ("./layouts/main", {homeClass: 'class=""'});
+});
 
 app.get("/scrape", function(req, res){
 	request("https://www.nytimes.com/", function(error, response, html){
