@@ -22,7 +22,7 @@ const cheerio = require("cheerio");
 var request = require("request");
 
 // require all models
-// const db =  require("./models");
+const db =  require("./models");
 
 // var routes = require(".routes/routes.js");
 // app.use("/routes", routes);
@@ -53,32 +53,60 @@ app.get("/list", function(req, res, next) {
 });
 
 app.get("/scrape", function(req, res){
+	console.log("i am scraping");
 	request("https://www.nytimes.com/", function(error, response, html){
-	var $ = cheerio.load(html);
+		var $ = cheerio.load(html);
 
-	var results = [];
-	// console.log($);
-	$("article.story").each(function(i, element) {
-		var url =$(element).children("h2.story-heading").children("a").attr("href");
-		var headline =$(element).children("h2.story-heading").children("a").text().trim();
-		var summary =$(element).children("p.summary").text().trim();
+		var results = [];
+		// console.log($);
+		$("article.story").each(function(i, element) {
+			var url =$(element).children("h2.story-heading").children("a").attr("href");
+			var headline =$(element).children("h2.story-heading").children("a").text().trim();
+			var summary =$(element).children("p.summary").text().trim();
 
-		console.log(i);
-		// console.log("URL for article " + url);
-		// console.log("headline for Article ", headline);
-		// console.log("Summary: ", summary);
+			// console.log(i);
+			// console.log("URL for article " + url);
+			// console.log("headline for Article ", headline);
+			// console.log("Summary: ", summary);
 
-		var article = {
-			url: url,
-			headline: headline,
-			summary: summary
-			};
-		console.log("consolidated: ", article);
-		res.render("index", article);
+			var article = {
+				url: url,
+				headline: headline,
+				summary: summary
+				};
+
+			var entry = new db.Article(article);
+			entry.save(function(error, data){
+				if (error) console.log(error)
+					// console.log(data)
+			});
+
+		// console.log("consolidated: ", article);
+		// res.render("index", article);
 		});
+	db.Article.find({}).populate("note").exec(function(error, data){
+			if (error) console.log(error)
+						console.log(data)
+					res.render("index", {
+						scrape:data
+					})
+		})
+	});
 
-	});	
 });
 
 // Initiate the listener.
 app.listen(port);
+console.log("App running on port " + port + "!");
+
+app.post("/save/:id", function(req, res) {
+    var id = req.param.id
+    db.Article.update({
+        saved: true,
+        where: {
+            _id: id
+        }
+    }).then(function(err, data) {
+if (err) console.log(err)
+})
+}

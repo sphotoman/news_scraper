@@ -20,6 +20,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
   <body>
+    //create dual nav bars ?? one for index and one for list view??
     <nav class="navbar navbar-default">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
@@ -37,23 +38,17 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         <li class="active"><a href="/">Home<span class="sr-only">(current)</span></a></li>
-        <li class="active"><a href="/list">List of Scraped Article</a></li>
-{{!--         <li {{ homeClass }}><a href="/">Home<span class="sr-only">(current)</span></a></li>
-        <li {{ listClass }}><a href="/list">List of Scraped Article</a></li> --}}
+        <li><a href="/list">List of Scraped Article</a></li>
+        <li class="navbar-form navbar-left">
+          <a href="/scrape"><button  class="btn btn-success">Scrape That Paper!</button></a>
+        </li>
       </ul>
-      <form class="navbar-form navbar-left">
-        {{!-- <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search">
-        </div> --}}
-        <button type="submit" href="/scrape" class="btn btn-success">Scrape That Paper!</button>
-      </form>
+
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
 <div class="jumbotron text-center">
   <h1>Scraping the Secrets of the NY Times</h1>
-  <p>Try in... Serious... YOU Won't...</p>
-  <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
 </div>
 {{!--     <h1>News Scraper</h1> --}}
     {{{ body }}}

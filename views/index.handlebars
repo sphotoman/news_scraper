@@ -1,1 +1,10 @@
-<h2>the HOmmy page {{ tester }}</h2>
+{{#each scrape}}
+	<div> 
+		<div> {{ this.headline }}	</div>
+		<div> {{ this.summary }}	</div>
+		<div><a href="{{this.url}}"> {{ this.url }} </a></div>
+	<form method="post" action="/save/{{this._id}}">
+	<button type="submit"> save article </button>
+	</form>
+	</div>
+{{/each}}
